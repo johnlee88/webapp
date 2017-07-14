@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>移动端touch事件</title>
+
+    <style>
+        #img{
+            width:10%;
+            position:relative;
+            left:0;
+            top:0;
+        }
+    </style>
+</head>
+<body>
+    <img src="imags/cp4.jpg" alt="" id="img">
+    <script>
+        var img=document.getElementById("img");
+        var currentPosX=img.offsetLeft;
+        var currentPosY=img.offsetTop;
+        var x0=0;
+        var y0=0;
+        function objMove(event) {
+            var distanceX=event.touches[0].clientX-x0;
+            var distanceY=event.touches[0].clientY-y0;
+            img.style.left=distanceX+currentPosX+"px";
+            img.style.top=distanceY+currentPosY+"px";
+        }
+        img.addEventListener("touchstart",function (event) {
+            x0=event.touches[0].clientX;
+            y0=event.touches[0].clientY;
+            document.addEventListener("touchmove",objMove);
+        });
+        document.addEventListener("touchend",function (event) {
+            document.removeEventListener("touchmove",objMove);
+            currentPosX=img.offsetLeft;
+            currentPosY=img.offsetTop;
+        })
+    </script>
+</body>
+</html>

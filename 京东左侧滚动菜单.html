@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>控件垂直滚动</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            margin: 0 auto;
+            max-width: 640px;
+            position: relative;
+            /*height:2000px;*/
+        }
+        #header{
+            width:100%;
+            height:40px;
+            background-color: rgba(255, 40, 11,1.0);
+            display:flex;
+            position: fixed;
+            padding-left:10px;
+            max-width: 640px;
+            margin: 0 auto;
+            z-index: 999;
+            /*display: none;*/
+        }
+        #header #holder{
+            flex: 9;
+            background-color: white;
+            border-radius:20px;
+            margin:5px 0px;
+            display: flex;
+        }
+        #header #holder #logo{
+            width:20px;
+            float:left;
+            margin:5px 5px 5px 10px;
+        }
+        #header #holder #searchIcon{
+            width:16px;
+            height:16px;
+            background: url("imags/sprites.png")no-repeat -83px 0;
+            background-size: 200px 200px;
+            float:left;
+            margin-top:7px;
+        }
+        #header #holder #search{
+            float:left;
+            height:30px;
+            margin-left:5px;
+            border:none;
+            outline:none;
+            flex:10;
+            margin-right:5px;
+            background-color: transparent;
+        }
+        #header #align{
+            flex: 1;
+            border:none;
+            background-color: transparent;
+            outline:none;
+            color:white;
+            padding-left:5px;
+            padding-right:10px;
+        }
+        /*左侧菜单栏*/
+        #leftnav{
+          position: absolute;
+          top:0;
+          left:0;
+        }
+        #leftnav ul{
+            list-style-type: none;
+            padding-top:40px;
+        }
+        #leftnav ul li{
+            width:75px;
+            height: 45px;
+            border-bottom:1px solid #EEEEEE;
+            border-left:1px solid #EEEEEE;
+            border-right:1px solid #EEEEEE;
+            text-align: center;
+            line-height: 45px;
+            color:black;
+            font-size:14px;
+        }
+        #leftnav .hot{
+            border-top: 1px solid #EEEEEE;
+        }
+    </style>
+</head>
+<body>
+    <!--搜索框-->
+    <div id="header">
+        <div id="holder">
+            <img src="imags/buy-logo.png" id="logo">
+            <div id="searchIcon"></div>
+            <input type="text" placeholder="玩具乐器满199减100" id="search">
+        </div>
+        <button id="align">搜索</button>
+    </div>
+     <div id="leftnav">
+         <ul>
+             <li class="hot">热门推荐</li>
+             <li>京东超市</li>
+             <li>全球购</li>
+             <li>男装</li>
+             <li>女装</li>
+             <li>男鞋</li>
+             <li>女鞋</li>
+             <li>内衣配饰</li>
+             <li>箱包手袋</li>
+             <li>美妆个护</li>
+             <li>钟表珠宝</li>
+             <li>手机数码</li>
+             <li>电脑办公</li>
+             <li>家用电器</li>
+             <li>食品生鲜</li>
+             <li>女鞋</li>
+             <li>内衣配饰</li>
+             <li>箱包手袋</li>
+             <li>美妆个护</li>
+             <li>钟表珠宝</li>
+             <li>手机数码</li>
+             <li>电脑办公</li>
+             <li>家用电器</li>
+             <li>食品生鲜</li>
+         </ul>
+     </div>
+    <script>
+       var leftnav=document.getElementById("leftnav");
+       var currentPosY=leftnav.offsetTop;
+       var startPosY=0;
+       var endPosY=0;
+       var updownGap=200;
+       leftnav.addEventListener("touchstart",function (event) {
+           currentPosY=leftnav.offsetTop;
+           startPosY=event.touches[0].clientY;
+           document.addEventListener("touchmove",myMove);
+       });
+
+       document.addEventListener("touchend",function () {
+           if(leftnav.offsetTop>0)
+           {
+               /*给左侧导航条添加过渡动画*/
+               addTransition();
+               leftnav.style.top=0;
+               currentPosY=0;
+           }
+           /*看底部的情况：判断左侧导航条底部，距离屏幕的底部的距离*/
+           if(leftnav.offsetTop<window.innerHeight-leftnav.offsetHeight)
+           {
+               /*给左侧导航条添加过渡动画*/
+               addTransition();
+               leftnav.style.top=window.innerHeight-leftnav.offsetHeight+"px";
+               currentPosY=window.innerHeight-leftnav.offsetHeight;
+           }
+           /*移除document对象的touchmove事件*/
+           document.removeEventListener("touchmove",myMove);
+       });
+
+       function myMove(event){
+           endPosY=event.touches[0].clientY;
+           /*滑动区域的限制条件*/
+           var offsetTop=endPosY-startPosY+currentPosY;
+           if(offsetTop>=updownGap)
+           {
+               /*顶部移动的极限位置*/
+               offsetTop=updownGap;
+           }
+           if(offsetTop<=window.innerHeight-leftnav.offsetHeight-updownGap)
+           {
+               /*底部移动的极限位置*/
+               offsetTop=window.innerHeight-leftnav.offsetHeight-updownGap;
+           }
+           /*移除左侧导航条上面的动画*/
+           removeTransition();
+           leftnav.style.top=offsetTop+"px";
+       }
+       /*给左侧导航条添加动画*/
+       function addTransition() {
+           leftnav.style.transition="all 0.3s";
+       }
+       function removeTransition() {
+           leftnav.style.transition="none";
+       }
+
+    </script>
+</body>
+</html>

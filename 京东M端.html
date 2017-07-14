@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Title</title>
+    <script src="jquery-1.11.1.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /*#wrap{*/
+             /*position: fixed;*/
+             /*width:100%;*/
+        /*}*/
+        body{
+            margin: 0 auto;
+            max-width: 640px;
+            height:2000px;
+        }
+        #header{
+            width:100%;
+            height:40px;
+            background-color: rgba(255, 40, 11, 0.3);
+            display:flex;
+            position: fixed;
+            padding-left:10px;
+            max-width: 640px;
+            margin: 0 auto;
+            z-index: 999;
+            /*opacity: 0.5;*/
+        }
+        #header #holder{
+            flex: 9;
+            background-color: white;
+            border-radius:20px;
+            margin:5px 0px;
+            display: flex;
+        }
+        #header #holder #logo{
+            width:20px;
+            float:left;
+            margin:5px 5px 5px 10px;
+        }
+        #header #holder #searchIcon{
+            width:16px;
+            height:16px;
+            background: url("imags/sprites.png")no-repeat -83px 0;
+            background-size: 200px 200px;
+            float:left;
+            margin-top:7px;
+        }
+        #header #holder #search{
+            float:left;
+            height:30px;
+            margin-left:5px;
+            border:none;
+            outline:none;
+            flex:10;
+            margin-right:5px;
+            background-color: transparent;
+        }
+        #header #align{
+            flex: 1;
+            border:none;
+            background-color: transparent;
+            outline:none;
+            color:white;
+            padding-left:5px;
+            padding-right:10px;
+        }
+        /*轮播图样式*/
+        #lunbo{
+            overflow: hidden;
+            position: relative;
+
+        }
+         #lunbo ul,ol{
+             list-style-type: none;
+         }
+        #lunbo ul {
+            width:1000%;
+            position: relative;
+            left:0;
+        }
+        #lunbo ul li{
+            float:left;
+            width:10%;
+        }
+        #lunbo ul li img{
+            width:100%;
+        }
+        #lunbo ol{
+            position: absolute;
+            bottom:10px;
+            left:50%;
+            margin-left:-80px;
+        }
+        #lunbo ol li{
+            width:10px;
+            height:10px;
+            border:1px solid white;
+            border-radius: 50%;
+            margin:0px 5px;
+            float:left;
+        }
+        #lunbo ol li.select{
+            background-color: white;
+        }
+        /*topnav样式*/
+        .topnav ul{
+            list-style: none;
+        }
+        .topnav ul li{
+            width:20%;
+            float:left;
+            margin:6px 0;
+            text-align: center;
+        }
+        .topnav ul li p{
+            color: #0f0f0f;
+            font-size: 12px;
+        }
+        .topnav ul li img{
+            width:60%;
+        }
+        /*使用媒体查询改变文字的大小*/
+        @media screen and (min-width:640px ) {
+            .topnav ul li p{
+                font-size: 16px;
+            }
+            .topnav ul li img{
+                width:45%;
+            }
+        }
+        /*掌上秒杀样式*/
+        .secondbuy{
+            clear: both;
+            border:1px solid #ccc;
+        }
+        .secondbuy .secondbuyhead{
+            height:30px;
+            background: url("imags/seckill-icon.png")no-repeat 5px 0;
+            background-size:24px 30px;
+            line-height: 30px;
+        }
+        .secondbuy .title{
+            margin-left: 35px;
+            color:red;
+        }
+        .secondbuy a{
+            text-decoration: none;
+            float:right;
+            color:black;
+        }
+        .secondbuy .timeItem{
+            hight:30px;
+            background-color: black;
+            color:white;
+            padding:5px 3px;
+        }
+        .secondbuy .secondbuygoods ul{
+            height: 100%;
+        }
+        .secondbuy .secondbuygoods ul li {
+            width:33.33%;
+            float:left;
+            list-style: none;
+            text-align: center;
+            position: relative;
+        }
+        .secondbuy .secondbuygoods ul li img{
+            width:50%;
+        }
+        /*清除浮动*/
+        .secondbuy:after{
+            content: "";
+            display: block;
+            clear:both;
+            height:0;
+        }
+        .secondbuy .currentprice{
+            color:red;
+        }
+        .secondbuy .oldprice{
+            text-decoration: line-through;
+        }
+       .secondbuy .secondbuygoodsline{
+           height:60%;
+           width:1px;
+           position: absolute;
+           right:0;
+           background-color: #ccc;
+           top:15px;
+       }
+    </style>
+</head>
+<body>
+     <!--搜索框-->
+     <div id="header">
+         <div id="holder">
+             <img src="imags/buy-logo.png" id="logo">
+             <div id="searchIcon"></div>
+             <input type="text" placeholder="京东到家,1小时送达" id="search">
+         </div>
+         <button id="align">登录</button>
+     </div>
+     <!--轮播图-->
+     <div id="lunbo">
+         <ul id="ul">
+             <li><img src="imags/l1.jpg" alt=""></li>
+             <li><img src="imags/l2.jpg" alt=""></li>
+             <li><img src="imags/l3.jpg" alt=""></li>
+             <li><img src="imags/l4.jpg" alt=""></li>
+             <li><img src="imags/l5.jpg" alt=""></li>
+             <li><img src="imags/l6.jpg" alt=""></li>
+             <li><img src="imags/l7.jpg" alt=""></li>
+             <li><img src="imags/l8.jpg" alt=""></li>
+             <li><img src="imags/l1.jpg" alt=""></li>
+             <li><img src="imags/l2.jpg" alt=""></li>
+         </ul>
+         <ol>
+             <li class="select"></li>
+             <li></li>
+             <li></li>
+             <li></li>
+             <li></li>
+             <li></li>
+             <li></li>
+             <li></li>
+         </ol>
+     </div>
+     <!--京东超市菜单-->
+     <div class="topnav">
+         <ul>
+             <li><img src="imags/nav0.png" alt=""><p>京东超市</p></li>
+             <li><img src="imags/nav1.png" alt=""><p>京东超市</p></li>
+             <li><img src="imags/nav2.png" alt=""><p>京东超市</p></li>
+             <li><img src="imags/nav3.png" alt=""><p>京东超市</p></li>
+             <li><img src="imags/nav4.png" alt=""><p>京东超市</p></li>
+             <li><img src="imags/nav5.png" alt=""><p>京东超市</p></li>
+             <li><img src="imags/nav6.png" alt=""><p>京东超市</p></li>
+             <li><img src="imags/nav7.png" alt=""><p>京东超市</p></li>
+             <li><img src="imags/nav1.png" alt=""><p>京东超市</p></li>
+             <li><img src="imags/nav1.png" alt=""><p>京东超市</p></li>
+         </ul>
+     </div>
+     <!--掌上秒杀版块-->
+     <div class="secondbuy">
+         <div class="secondbuyhead">
+             <span class="title">掌上秒杀</span>
+             <span class="timeItem">0</span>
+             <span class="timeItem">0</span>
+             <span class="splitItem">:</span>
+             <span class="timeItem">0</span>
+             <span class="timeItem">0</span>
+             <span class="splitItem">:</span>
+             <span class="timeItem">0</span>
+             <span class="timeItem">0</span>
+             <a href=""><span>更多&gt;</span></a>
+         </div>
+         <div class="secondbuygoods">
+             <ul>
+                 <li>
+                     <img src="imags/detail02.jpg" alt="">
+                     <p class="currentprice">¥2000</p>
+                     <p class="oldprice">¥3000</p>
+                     <span class="secondbuygoodsline"></span>
+                 </li>
+                 <li>
+                     <img src="imags/detail02.jpg" alt="">
+                     <p class="currentprice">¥2000</p>
+                     <p class="oldprice">¥3000</p>
+                     <span class="secondbuygoodsline"></span>
+                 </li>
+                 <li>
+                     <img src="imags/detail02.jpg" alt="">
+                     <p class="currentprice">¥2000</p>
+                     <p class="oldprice">¥3000</p>
+                 </li>
+             </ul>
+         </div>
+     </div>
+
+
+
+
+
+
+
+
+     <script>
+         /*轮播图+倒计时*/
+         $(function () {
+             /*--设置搜索框动态透明度开始--*/
+             $(document).scroll(function () {
+                 var lunboHeight=$("#lunbo").height();
+                 var scrollTop=$(document.body).scrollTop();
+                 var currentOpacity=scrollTop*0.8/lunboHeight;
+                 if(scrollTop>=lunboHeight){
+                    currentOpacity=0.8;
+                 }
+                 else {
+                     var color="rgba(255, 40, 11,"+currentOpacity+")";
+                     $("#header").css("backgroundColor",color);
+                 }
+             });
+             /*--设置搜索框动态透明度结束--*/
+
+
+             /*--轮播图动画开始--*/
+             /*获取ul*/
+             var lunboUl=$("#lunbo").children("ul");
+             /* 获取轮播图片页面宽度*/
+             var pageWidth=$("#lunbo").width();
+             /*获取ol中所有的li*/
+             var ollis=$("#lunbo ol li");
+             /*设置轮播间隔时间*/
+             var t=1000;
+             var timer=null;
+             var index=-1;
+             timer=setInterval(function () {
+                 index++;
+                 /*当第9张图片显示的时候，让index值复位为0*/
+                 if(index>=8)
+                 {
+                     lunboUl.animate({"left":-index*pageWidth},"normal",function () {
+                         index=0;
+                         lunboUl.css("left",-index*pageWidth);
+                         /*让ol中所有li去除select类，当前的li加上select类*/
+                         ollis.removeClass("select");
+                         ollis.eq(index).addClass("select");
+                     });
+                 }
+                 /*进行页面的轮播，改变ul的left*/
+                 else
+                 {
+                     lunboUl.animate({"left":-index*pageWidth},"normal");
+                 }
+                 /*让ol中所有li去除select类，当前的li加上select类*/
+                 ollis.removeClass("select");
+                 ollis.eq(index).addClass("select");
+             },t);
+             /*--轮播图动画结束--*/
+
+
+             /*--秒杀倒计时开始--*/
+             var totalTime=3670;
+             var timeTimes=$(".secondbuy .timeItem");
+             var timer=null;
+            timer=setInterval(function () {
+                totalTime--;
+                /*清除定时器*/
+                if(totalTime<=0) {
+                    clearInterval(timer);
+                }
+                 var hour=Math.floor(totalTime/3600);
+                 var timeLeft=totalTime%3600;
+                 var minute=Math.floor(timeLeft/60);
+                 var sencond=timeLeft%60;
+                 timeTimes.eq(0).html(Math.floor(hour/10));
+                 timeTimes.eq(1).html(Math.floor(hour%10));
+                 timeTimes.eq(2).html(Math.floor(minute/10));
+                 timeTimes.eq(3).html(Math.floor(minute%10));
+                 timeTimes.eq(4).html(Math.floor(sencond/10));
+                 timeTimes.eq(5).html(Math.floor(sencond%10));
+             },1000);
+
+             /*--秒杀倒计时结束--*/
+         });
+        /* 动态获取php里面数据自动生成*/
+         $.ajax({
+                 url:"./php/secondbuy.php",
+                 type:"GET",
+                 dataType:"json",
+                 success:function(data)
+                 {
+                    $(".secondbuygoods ul li .currentprice").html(data.currentprice);
+                    $(".secondbuygoods ul li .oldprice").html(data.oldprice);
+                 },
+                 error:function(xhr,texterror)
+                 {
+                    alert("secondbuyerror!");
+                 }
+         });
+     </script>
+</body>
+</html>
